@@ -2,26 +2,38 @@
 
 // Function to change the background color when a button is clicked
 function changeBackgroundColor() {
-  // Implement the function to change background color
+  document.body.style.backgroundColor = '#' + Math.floor(Math.random()*16777215).toString(16);
 }
 
 // Function to reset the background color when the body is double-clicked
 function resetBackgroundColor() {
-  // Implement the function to reset background color
+  document.body.style.backgroundColor = '';
 }
 
 // Capture Keyboard Input
 
 // Function to display the key pressed by the user
 function displayKeyPress(event) {
-  // Implement the function to display key pressed
+  document.getElementById('keyPressDisplay').textContent = `Key pressed: ${event.key}`;
 }
 
 // Process Text Input
 
 // Function to display user input in real-time
 function displayUserInput() {
-  // Implement the function to display user input
+  const input = document.getElementById('textInput').value;
+  document.getElementById('textInputDisplay').textContent = input ? `You typed: ${input}` : 'Your input will be displayed here.';
+}
+
+// Combine Multiple Events
+
+// Function that integrates multiple event types for dynamic interactions
+function handleDynamicInteraction(event) {
+  const input = document.getElementById('textInput').value;
+  if (event.key === 'Enter' && input) {
+    document.body.style.backgroundColor = input.startsWith('#') ? input : '#' + Math.floor(Math.random()*16777215).toString(16);
+    document.getElementById('keyPressDisplay').textContent = `Color changed with: ${input}`;
+  }
 }
 
 // Attach Event Listeners
@@ -31,7 +43,7 @@ function setupEventListeners() {
     .getElementById('changeColorButton')
     .addEventListener('click', changeBackgroundColor)
 
-  // Attach event listener to reset background color when the body is double-clicked
+  // Attach event listener to reset background color when the reset button is double-clicked
   document
     .getElementById('resetColorButton')
     .addEventListener('dblclick', resetBackgroundColor)
@@ -41,6 +53,9 @@ function setupEventListeners() {
 
   // Attach event listener to display user input in real-time as they type
   document.getElementById('textInput').addEventListener('input', displayUserInput)
+
+  // Attach dynamic interaction listener for Enter key on text input
+  document.getElementById('textInput').addEventListener('keydown', handleDynamicInteraction)
 }
 
 // Initialize event listeners when the DOM is loaded
@@ -53,5 +68,6 @@ module.exports = {
   resetBackgroundColor,
   displayKeyPress,
   displayUserInput,
+  handleDynamicInteraction,
   setupEventListeners,
 }
